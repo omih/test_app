@@ -1,0 +1,79 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    Properties props = new Properties()
+    props.load(rootProject.file('build.properties').newDataInputStream())
+    def config = rootProject.ext
+    compileSdkVersion config.androidCompileSdkVersion
+    buildToolsVersion config.androidBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion config.androidMinSdkVersion
+        targetSdkVersion config.androidTargetSdkVersion
+        versionCode config.androidVersionCode
+        versionName config.androidVersionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        debug {
+            buildConfigField "String", "SERVER", "${props["server"]}"
+            minifyEnabled false
+        }
+        release {
+            buildConfigField "String", "SERVER", "${props["server"]}"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            java.srcDirs = [
+                    'src/main/java',
+                    'src/main/kotlin'
+            ]
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+    def deps = rootProject.ext.dataDependencies
+    def depsTest = rootProject.ext.dataTestDependencies
+    def debugDeps = rootProject.ext.debugDependencies
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(path: ':model')
+    implementation deps.dagger
+    kapt deps.daggerCompiler
+    implementation deps.kotlinStdlib
+    implementation deps.rxJava
+    implementation deps.rxAndroid
+    implementation deps.jodaTime
+    implementation deps.timber
+    implementation deps.prettyLogger
+    implementation deps.room
+    implementation deps.roomRx
+    implementation deps.okHttp
+    implementation deps.retrofit
+    implementation deps.retrofitGsonConverter
+    implementation deps.retrofitRxAdapter
+    kapt deps.roomCompiler
+    implementation(debugDeps.loggingInterceptor, {
+        exclude group: 'org.json', module: 'json'
+    })
+
+    testImplementation depsTest.junit
+    androidTestImplementation depsTest.junit
+    androidTestImplementation depsTest.testRunner
+}
+repositories {
+    mavenCentral()
+}

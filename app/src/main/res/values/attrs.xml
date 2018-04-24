@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LoadingViewGroup">
+        <attr name="loading_content" format="reference" />
+        <attr name="loading_view" format="reference" />
+        <attr name="loading_progress" format="reference" />
+        <attr name="loading_stub" format="reference" />
+        <attr name="loading_state" format="enum">
+            <enum name="loading" value="0" />
+            <enum name="display" value="1" />
+            <enum name="stub" value="2" />
+            <enum name="hide" value="3" />
+        </attr>
+    </declare-styleable>
+</resources>

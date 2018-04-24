@@ -1,0 +1,77 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    def config = rootProject.ext
+    compileSdkVersion config.androidCompileSdkVersion
+    buildToolsVersion config.androidBuildToolsVersion
+
+    defaultConfig {
+        applicationId config.androidApplicationId
+        minSdkVersion config.androidMinSdkVersion
+        targetSdkVersion config.androidTargetSdkVersion
+        versionCode config.androidVersionCode
+        versionName config.androidVersionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java', 'src/main/kotlin']
+            res.srcDirs =
+                    [
+                            'src/main/res',
+                            'src/main/res/layout/activity/',
+                            'src/main/res/layout/fragment/'
+                    ]
+        }
+    }
+    compileOptions {
+        incremental = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+    def deps = rootProject.ext.appDependencies
+    def depsTest = rootProject.ext.appTestDependencies
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation deps.dagger
+    kapt deps.daggerCompiler
+    implementation deps.appcompat
+    implementation deps.kotlinStdlib
+    implementation deps.supportDesign
+    kapt deps.moxyCompiler
+    implementation deps.moxy
+    implementation deps.moxyAndroid
+    implementation deps.cicerone
+    implementation deps.room
+    implementation deps.jodaTime
+    implementation deps.timber
+    implementation deps.prettyLogger
+    implementation deps.rxJava
+    implementation deps.rxAndroid
+    implementation deps.groupie
+    implementation deps.constraintLayout
+    implementation deps.okHttp
+    implementation deps.retrofit
+    implementation deps.retrofitGsonConverter
+    implementation deps.retrofitRxAdapter
+    implementation project(':model')
+    implementation project(':data')
+
+    androidTestImplementation depsTest.junit
+    androidTestImplementation depsTest.testRunner
+}

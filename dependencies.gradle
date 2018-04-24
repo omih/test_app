@@ -1,0 +1,105 @@
+ext {
+    androidCompileSdkVersion = 27
+    androidBuildToolsVersion = "27.0.3"
+    androidMinSdkVersion = 21
+    androidTargetSdkVersion = 27
+    
+    daggerVersion = '2.14.1'
+    support = '27.0.2'
+    moxyVersion = '1.5.3'
+    ciceroneVersion = '3.0.0'
+    room = '1.0.0'
+    retrofitVersion = '2.3.0'
+    jodaTimeVersion = '2.9.9.1'
+    timberVersion = '4.6.0'
+    prettyLoggerVersion = '2.1.1'
+    loggingInterceptorVersion = '2.0.3'
+    rxJavaVersion = '2.1.6'
+    rxAndroidVersion = '2.0.1'
+    okHttp = '3.9.1'
+    groupie = '2.0.3'
+    constraintLayoutVersion = '1.0.2'
+
+    //Testing
+    jUnitVersion = '4.12'
+    espressoCoreVersion = '3.0.1'
+    testRunnerVersion = '1.0.1'
+
+
+    appDependencies = [
+            retrofit             : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            okHttp               : "com.squareup.okhttp3:okhttp:$okHttp",
+            retrofitGsonConverter: "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+            retrofitRxAdapter    : "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
+            constraintLayout     : "com.android.support.constraint:constraint-layout:$constraintLayoutVersion",
+            rxJava               : "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
+            rxAndroid            : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
+            timber               : "com.jakewharton.timber:timber:$timberVersion",
+            prettyLogger         : "com.orhanobut:logger:$prettyLoggerVersion",
+            kotlinStdlib         : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
+            daggerCompiler       : "com.google.dagger:dagger-compiler:$daggerVersion",
+            dagger               : "com.google.dagger:dagger:$daggerVersion",
+            appcompat            : "com.android.support:appcompat-v7:$support",
+            supportDesign        : "com.android.support:design:$support",
+            moxy                 : "com.arello-mobile:moxy:$moxyVersion",
+            moxyCompiler         : "com.arello-mobile:moxy-compiler:$moxyVersion",
+            moxyAndroid          : "com.arello-mobile:moxy-app-compat:$moxyVersion",
+            room                 : "android.arch.persistence.room:runtime:$room",
+            jodaTime             : "net.danlew:android.joda:$jodaTimeVersion",
+            cicerone             : "ru.terrakok.cicerone:cicerone:$ciceroneVersion",
+            groupie              : "com.xwray:groupie:$groupie"
+    ]
+
+    appTestDependencies = [
+            junit       : "junit:junit:$jUnitVersion",
+            testRunner  : "com.android.support.test:runner:$testRunnerVersion",
+            espressoCore: "com.android.support.test.espresso:espresso-core:$espressoCoreVersion"
+    ]
+
+    modelDependencies = [
+            rxJava        : "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
+            timber        : "com.jakewharton.timber:timber:$timberVersion",
+            prettyLogger  : "com.orhanobut:logger:$prettyLoggerVersion",
+            kotlinStdlib  : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
+            daggerCompiler: "com.google.dagger:dagger-compiler:$daggerVersion",
+            jodaTime      : "net.danlew:android.joda:$jodaTimeVersion",
+            dagger        : "com.google.dagger:dagger:$daggerVersion"
+    ]
+
+    modelTestDependencies = [
+            junit: "junit:junit:$jUnitVersion",
+            testRunner  : "com.android.support.test:runner:$testRunnerVersion"
+    ]
+
+    dataDependencies = [
+            retrofit             : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            okHttp               : "com.squareup.okhttp3:okhttp:$okHttp",
+            timber               : "com.jakewharton.timber:timber:$timberVersion",
+            rxJava               : "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
+            rxAndroid            : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
+            prettyLogger         : "com.orhanobut:logger:$prettyLoggerVersion",
+            retrofitGsonConverter: "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+            retrofitRxAdapter    : "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
+            jodaTime             : "net.danlew:android.joda:$jodaTimeVersion",
+            kotlinStdlib         : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
+            daggerCompiler       : "com.google.dagger:dagger-compiler:$daggerVersion",
+            dagger               : "com.google.dagger:dagger:$daggerVersion",
+            room                 : "android.arch.persistence.room:runtime:$room",
+            roomCompiler         : "android.arch.persistence.room:compiler:$room",
+            roomRx               : "android.arch.persistence.room:rxjava2:$room"
+    ]
+
+    dataTestDependencies = [
+            junit          : "junit:junit:$jUnitVersion",
+
+            roomTesting    : "android.arch.persistence.room:testing:$room",
+            testRunner     : "com.android.support.test:runner:$testRunnerVersion",
+            testRules      : "com.android.support.test:rules:$testRunnerVersion",
+            archCoreTesting: "android.arch.core:core-testing:$room"
+
+    ]
+
+    debugDependencies = [
+            loggingInterceptor: "com.github.ihsanbal:LoggingInterceptor:$loggingInterceptorVersion"
+    ]
+}

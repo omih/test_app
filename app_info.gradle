@@ -1,0 +1,6 @@
+ext {
+    androidApplicationId = "com.example.mikhail"
+
+    androidVersionCode = 1
+    androidVersionName = "1.0"
+}
