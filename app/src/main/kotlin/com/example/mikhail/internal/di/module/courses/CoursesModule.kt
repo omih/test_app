@@ -1,8 +1,23 @@
 package com.example.mikhail.internal.di.module.courses
 
+import com.example.data.network.api.Api
+import com.example.data.repository.CoursesDataRepository
+import com.example.data.storage.MainDatabase
+import com.example.mikhail.internal.di.scope.UserScope
+import com.example.model.repository.CoursesRepository
+import com.example.model.usecase.CoursesUseCase
 import dagger.Module
+import dagger.Provides
 
 @Module
 class CoursesModule {
+
+    @UserScope
+    @Provides
+    fun provideCoursesRepository(api: Api, db: MainDatabase): CoursesRepository = CoursesDataRepository(api, db)
+
+    @UserScope
+    @Provides
+    fun provideCoursesUseCase(coursesRepository: CoursesRepository): CoursesUseCase = CoursesUseCase(coursesRepository)
 
 }

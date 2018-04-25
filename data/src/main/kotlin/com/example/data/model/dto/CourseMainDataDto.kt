@@ -24,5 +24,5 @@ data class CourseMainDataDto(
         @SerializedName("course_slug")
         val slug: String,
         @SerializedName("course_cover")
-        val logo: String
+        val logo: String?
 )

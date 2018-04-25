@@ -12,7 +12,7 @@ import javax.inject.Inject
 class CoursesDataRepository @Inject constructor(val api: Api, val db: MainDatabase) : CoursesRepository {
     override fun loadCoursesMainData(): Single<MutableList<CourseMainData>> {
         return api.searchCourses()
-                .map { it.data }
+                .map { it.courses }
                 .flattenAsFlowable { it }
                 .map { CourseMainDataConverter.toModel(it) }
                 .toList()

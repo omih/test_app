@@ -11,5 +11,5 @@ data class CourseMainData(
         val authorsId: List<Long>,
         val title: String,
         val slug: String,
-        val logo: String
+        val logo: String?
 )

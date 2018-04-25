@@ -38,5 +38,5 @@ data class CourseMainDataEntity(
         var slug: String = "",
 
         @ColumnInfo(name = "logo")
-        var logo: String = ""
+        var logo: String? = null
 )

@@ -16,7 +16,7 @@ object CourseMainDataConverter {
         val authorsId: List<Long> = courseDto.authorsId
         val title: String = courseDto.title
         val slug: String = courseDto.slug
-        val logo: String = courseDto.logo
+        val logo: String? = courseDto.logo
         
         return CourseMainDataEntity(id, position, score, targetId, targetType, courseId, ownerId, authorsId, title, slug, logo)
     }
