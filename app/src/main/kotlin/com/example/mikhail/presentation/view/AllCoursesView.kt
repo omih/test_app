@@ -6,4 +6,7 @@ import com.xwray.groupie.ViewHolder
 
 interface AllCoursesView : MvpView {
     fun showAllCourses(courses: List<Item<ViewHolder>>)
+    fun progressShow()
+    fun contentShow()
+    fun showCoursesAbsent()
 }

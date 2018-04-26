@@ -74,6 +74,7 @@ dependencies {
         exclude group: 'com.android.support'
     })
     kapt deps.glideCompiler
+    implementation deps.cardView
     implementation project(':model')
     implementation project(':data')
 

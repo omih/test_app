@@ -23,7 +23,7 @@ abstract class MainDatabase : RoomDatabase() {
         const val DB_NAME = "test_app_db"
     }
 
-    abstract fun coursesMainDataDao(): CoursesMainDataDao
+    internal abstract fun coursesMainDataDao(): CoursesMainDataDao
 
     fun clearDatabase() {
         beginTransaction()

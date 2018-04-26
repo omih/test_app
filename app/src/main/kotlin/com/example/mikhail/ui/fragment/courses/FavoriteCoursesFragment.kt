@@ -9,7 +9,9 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.mikhail.R
 import com.example.mikhail.presentation.presenter.FavoriteCoursesPresenter
 import com.example.mikhail.presentation.view.FavoriteCoursesView
+import com.example.mikhail.ui.adapter.CourseItemAdapter
 import com.example.mikhail.ui.fragment.BaseFragment
+import com.example.mikhail.ui.gone
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -37,10 +39,37 @@ class FavoriteCoursesFragment: BaseFragment(), FavoriteCoursesView {
             adapter = coursesAdapter
             layoutManager = LinearLayoutManager(context)
         }
+
+        coursesAdapter.setOnItemClickListener { item, _ ->
+            presenter.removeFromFavorite((item as CourseItemAdapter).course)
+        }
+
+        absent_repeat.gone()
     }
 
-    override fun showAllCourses(courses: List<Item<ViewHolder>>) {
+
+    override fun progressShow() {
+        loading_courses_state.showLoading()
+    }
+
+    override fun contentShow() {
+        loading_courses_state.showContent()
+    }
+
+    override fun showCoursesAbsent() {
+        loading_courses_state.showStub()
+    }
+
+
+    override fun showFavoriteCourses(courses: List<Item<ViewHolder>>) {
         coursesAdapter.clear()
         coursesAdapter.addAll(courses)
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isVisibleToUser) {
+            presenter.loadFavoriteCourses()
+        }
     }
 }

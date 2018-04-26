@@ -9,6 +9,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.mikhail.R
 import com.example.mikhail.presentation.presenter.AllCoursesPresenter
 import com.example.mikhail.presentation.view.AllCoursesView
+import com.example.mikhail.ui.adapter.CourseItemAdapter
 import com.example.mikhail.ui.fragment.BaseFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
@@ -37,10 +38,35 @@ class AllCoursesFragment: BaseFragment(), AllCoursesView {
             adapter = coursesAdapter
             layoutManager = LinearLayoutManager(context)
         }
+
+        coursesAdapter.setOnItemClickListener { item, _ ->
+            presenter.addOrRemoveFromFavorite((item as CourseItemAdapter).course)
+        }
+
+        absent_repeat.setOnClickListener { presenter.loadCourses() }
+    }
+
+    override fun progressShow() {
+        loading_courses_state.showLoading()
+    }
+
+    override fun contentShow() {
+        loading_courses_state.showContent()
+    }
+
+    override fun showCoursesAbsent() {
+        loading_courses_state.showStub()
     }
 
     override fun showAllCourses(courses: List<Item<ViewHolder>>) {
         coursesAdapter.clear()
         coursesAdapter.addAll(courses)
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isVisibleToUser && isAdded) {
+            presenter.loadCourses()
+        }
     }
 }

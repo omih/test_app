@@ -21,6 +21,22 @@ internal object CourseMainDataConverter {
         return CourseMainDataEntity(id, position, score, targetId, targetType, courseId, ownerId, authorsId, title, slug, logo)
     }
 
+    fun toEntity(course: CourseMainData): CourseMainDataEntity {
+        val id: Long = course.id
+        val position: Int = course.position
+        val score: Double = course.score
+        val targetId: Long = course.targetId
+        val targetType: String = course.targetType
+        val courseId: Long = course.courseId
+        val ownerId: Long = course.ownerId
+        val authorsId: List<Long> = course.authorsId
+        val title: String = course.title
+        val slug: String = course.slug
+        val logo: String? = course.logo
+
+        return CourseMainDataEntity(id, position, score, targetId, targetType, courseId, ownerId, authorsId, title, slug, logo)
+    }
+
     fun toModel(dto: CourseMainDataDto): CourseMainData {
         val id = dto.id
         val position = dto.position
@@ -49,7 +65,8 @@ internal object CourseMainDataConverter {
         val title = entity.title
         val slug = entity.slug
         val logo = entity.logo
+        val isFavorite = entity.isFavorite
 
-        return CourseMainData(id, position, score, targetId, targetType, courseId, ownerId, authorsId, title, slug, logo)
+        return CourseMainData(id, position, score, targetId, targetType, courseId, ownerId, authorsId, title, slug, logo, isFavorite)
     }
 }

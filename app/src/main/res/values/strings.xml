@@ -2,5 +2,9 @@
     <string name="app_name">Test app</string>
     <string name="course_logotype">Логотип</string>
     <string name="courses">Курсы</string>
+    <string name="rating">Рейтинг</string>
+    <string name="course_absent">Тут пока ничего нет</string>
+    <string name="repeat_button">Попробовать еще раз</string>
+    <string name="space"> </string>
 
 </resources>

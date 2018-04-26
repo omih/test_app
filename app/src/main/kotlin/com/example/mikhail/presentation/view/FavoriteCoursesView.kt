@@ -5,5 +5,8 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 
 interface FavoriteCoursesView: MvpView {
-    fun showAllCourses(courses: List<Item<ViewHolder>>)
+    fun showFavoriteCourses(courses: List<Item<ViewHolder>>)
+    fun progressShow()
+    fun contentShow()
+    fun showCoursesAbsent()
 }

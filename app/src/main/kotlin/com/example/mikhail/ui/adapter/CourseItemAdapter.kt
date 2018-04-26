@@ -15,6 +15,7 @@ class CourseItemAdapter(val course: CourseMainData): Item<ViewHolder>() {
         with(viewHolder.itemView) {
             course_title.text = course.title
             course_score.text = course.score.roundToInt().toString()
+            course_favorite.isChecked = course.favorite
 
             GlideApp.with(this)
                     .load(course.logo)

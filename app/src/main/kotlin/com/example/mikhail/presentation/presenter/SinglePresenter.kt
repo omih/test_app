@@ -10,7 +10,7 @@ import javax.inject.Inject
 class SinglePresenter : BasePresenter<SingleView>() {
 
     @Inject
-    internal lateinit var router: Router
+    protected lateinit var router: Router
 
     init {
         DI.componentManager.appComponent.inject(this)

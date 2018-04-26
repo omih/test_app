@@ -38,5 +38,8 @@ internal data class CourseMainDataEntity(
         var slug: String = "",
 
         @ColumnInfo(name = "logo")
-        var logo: String? = null
+        var logo: String? = null,
+
+        @ColumnInfo(name = "is_favorite")
+        var isFavorite: Boolean = true
 )
