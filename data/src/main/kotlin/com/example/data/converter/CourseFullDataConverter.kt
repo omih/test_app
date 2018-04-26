@@ -3,7 +3,7 @@ package com.example.data.converter
 import com.example.data.model.dto.CourseFullDataDto
 import com.example.data.model.entity.CourseFullDataEntity
 
-object CourseFullDataConverter {
+internal object CourseFullDataConverter {
     fun toEntity(courseDto: CourseFullDataDto): CourseFullDataEntity {
         val id = courseDto.id
         val summary = courseDto.summary

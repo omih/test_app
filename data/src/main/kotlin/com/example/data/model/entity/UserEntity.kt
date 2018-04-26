@@ -7,7 +7,7 @@ import com.example.data.storage.Tables
 import org.joda.time.DateTime
 
 @Entity(tableName = Tables.USERS)
-data class UserEntity(
+internal data class UserEntity(
         @PrimaryKey
         var id: Long = 0,
         @ColumnInfo(name = "profile")

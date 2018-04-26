@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey
 import com.example.data.storage.Tables
 
 @Entity(tableName = Tables.COURSE_MAIN_DATA)
-data class CourseMainDataEntity(
+internal data class CourseMainDataEntity(
         @PrimaryKey
         var id: Long = 0,
 

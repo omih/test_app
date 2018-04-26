@@ -3,7 +3,7 @@ package com.example.data.model.dto
 import com.google.gson.annotations.SerializedName
 import org.joda.time.DateTime
 
-data class CourseFullDataDto(
+internal data class CourseFullDataDto(
         @SerializedName("id")
         val id: Long,
         @SerializedName("summary")

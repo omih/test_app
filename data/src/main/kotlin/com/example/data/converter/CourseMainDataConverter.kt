@@ -4,7 +4,7 @@ import com.example.data.model.dto.CourseMainDataDto
 import com.example.data.model.entity.CourseMainDataEntity
 import com.example.model.model.CourseMainData
 
-object CourseMainDataConverter {
+internal object CourseMainDataConverter {
     fun toEntity(courseDto: CourseMainDataDto): CourseMainDataEntity {
         val id: Long = courseDto.id
         val position: Int = courseDto.position

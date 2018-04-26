@@ -7,7 +7,7 @@ import com.example.data.storage.Tables
 import org.joda.time.DateTime
 
 @Entity(tableName = Tables.COURSE_FULL_DATA)
-data class CourseFullDataEntity(
+internal data class CourseFullDataEntity(
         @PrimaryKey
         var id: Long = 0,
         @ColumnInfo(name = "summary")

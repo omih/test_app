@@ -3,7 +3,7 @@ package com.example.data.converter
 import com.example.data.model.dto.UserDto
 import com.example.data.model.entity.UserEntity
 
-object UserConverter {
+internal object UserConverter {
     fun toEntity(userDto: UserDto): UserEntity {
         val id = userDto.id
         val profile = userDto.profile

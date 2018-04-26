@@ -2,7 +2,7 @@ package com.example.data.model.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class CourseMainDataDto(
+internal data class CourseMainDataDto(
         @SerializedName("id")
         val id: Long,
         @SerializedName("position")
