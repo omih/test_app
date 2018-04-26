@@ -29,7 +29,8 @@ android {
                     [
                             'src/main/res',
                             'src/main/res/layout/activity/',
-                            'src/main/res/layout/fragment/'
+                            'src/main/res/layout/fragment/',
+                            'src/main/res/layout/item/'
                     ]
         }
     }
@@ -69,6 +70,10 @@ dependencies {
     implementation deps.retrofit
     implementation deps.retrofitGsonConverter
     implementation deps.retrofitRxAdapter
+    implementation (deps.glide, {
+        exclude group: 'com.android.support'
+    })
+    kapt deps.glideCompiler
     implementation project(':model')
     implementation project(':data')
 
