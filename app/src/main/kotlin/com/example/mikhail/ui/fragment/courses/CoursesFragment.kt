@@ -8,9 +8,10 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.mikhail.R
 import com.example.mikhail.presentation.presenter.CoursesPresenter
 import com.example.mikhail.presentation.view.CoursesView
+import com.example.mikhail.ui.adapter.CoursesViewPagerAdapter
 import com.example.mikhail.ui.fragment.BaseFragment
-import com.example.model.model.CourseMainData
 import kotlinx.android.synthetic.main.fragment_courses.*
+
 
 class CoursesFragment : BaseFragment(), CoursesView {
 
@@ -25,7 +26,13 @@ class CoursesFragment : BaseFragment(), CoursesView {
         return inflater.inflate(R.layout.fragment_courses, container, false)
     }
 
-    override fun show(courses: MutableList<CourseMainData>) {
-        test.text = courses.toString()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        courses_viewpager.adapter = CoursesViewPagerAdapter(childFragmentManager, context)
+        courses_tabs.setupWithViewPager(courses_viewpager)
+
+        toolbar.inflateMenu(R.menu.search)
     }
+
 }
