@@ -26,10 +26,13 @@ class AllCoursesPresenter : BasePresenter<AllCoursesView>() {
     @Inject
     protected lateinit var coursesUseCase: CoursesUseCase
 
-    fun loadCourses() {
+    private var searchString = ""
+
+    fun loadCourses(search: String = "") {
+        searchString = search
         viewState.progressShow()
         safeSubscribe {
-            coursesUseCase.loadCoursesFromServer()
+            coursesUseCase.loadCoursesFromServer(searchString)
                     .subscribe({
                         if (it.isEmpty()) {
                             viewState.showCoursesAbsent()
@@ -52,12 +55,12 @@ class AllCoursesPresenter : BasePresenter<AllCoursesView>() {
             if (course.favorite) {
                 coursesUseCase.removeFromFavorite(course)
                         .subscribe({
-                            loadCourses()
+                            loadCourses(searchString)
                         }, {})
             } else {
                 coursesUseCase.addToFavorite(course)
                         .subscribe({
-                            loadCourses()
+                            loadCourses(searchString)
                         }, {})
             }
         }

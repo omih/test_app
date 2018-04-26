@@ -1,4 +1,4 @@
-package com.example.mikhail.ui
+package com.example.mikhail.ui.util
 
 import android.view.View
 

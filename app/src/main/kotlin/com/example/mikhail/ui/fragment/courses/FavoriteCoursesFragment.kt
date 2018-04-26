@@ -2,6 +2,7 @@ package com.example.mikhail.ui.fragment.courses
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +12,13 @@ import com.example.mikhail.presentation.presenter.FavoriteCoursesPresenter
 import com.example.mikhail.presentation.view.FavoriteCoursesView
 import com.example.mikhail.ui.adapter.CourseItemAdapter
 import com.example.mikhail.ui.fragment.BaseFragment
-import com.example.mikhail.ui.gone
+import com.example.mikhail.ui.util.gone
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_courses_list.*
 
-class FavoriteCoursesFragment: BaseFragment(), FavoriteCoursesView {
+class FavoriteCoursesFragment: BaseFragment(), FavoriteCoursesView, SearchView.OnQueryTextListener {
 
     companion object {
         fun newInstance() = FavoriteCoursesFragment()
@@ -47,7 +48,6 @@ class FavoriteCoursesFragment: BaseFragment(), FavoriteCoursesView {
         absent_repeat.gone()
     }
 
-
     override fun progressShow() {
         loading_courses_state.showLoading()
     }
@@ -60,16 +60,15 @@ class FavoriteCoursesFragment: BaseFragment(), FavoriteCoursesView {
         loading_courses_state.showStub()
     }
 
-
     override fun showFavoriteCourses(courses: List<Item<ViewHolder>>) {
         coursesAdapter.clear()
         coursesAdapter.addAll(courses)
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if (isVisibleToUser) {
-            presenter.loadFavoriteCourses()
-        }
+    override fun onQueryTextSubmit(query: String?) = false
+
+    override fun onQueryTextChange(newText: String): Boolean {
+        presenter.loadFavoriteCourses(newText)
+        return true
     }
 }

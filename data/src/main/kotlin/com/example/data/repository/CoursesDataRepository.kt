@@ -11,18 +11,26 @@ import io.reactivex.Flowable
 import javax.inject.Inject
 
 class CoursesDataRepository @Inject constructor(val api: Api, val db: MainDatabase) : CoursesRepository {
-    override fun loadCoursesFavorite(): Flowable<List<CourseMainData>> {
-        return loadCoursesFavoriteFromDb()
+    override fun loadCoursesFavorite(searchString: String): Flowable<List<CourseMainData>> {
+        return loadCoursesFavoriteFromDb(searchString)
                 .schedulersIoToMain()
     }
 
-    private fun loadCoursesFavoriteFromDb(): Flowable<List<CourseMainData>> {
+    private fun loadCoursesFavoriteFromDb(searchString: String): Flowable<List<CourseMainData>> {
         return db.coursesMainDataDao()
                 .allCourses()
                 .flattenAsFlowable { it }
                 .map { CourseMainDataConverter.toModel(it) }
+                .filter { filterCourseByString(searchString, it) }
                 .toList()
                 .toFlowable()
+    }
+
+    private fun filterCourseByString(searchString: String, it: CourseMainData): Boolean {
+        return when {
+            searchString.isNotEmpty() -> it.title.contains(searchString, true)
+            else -> true
+        }
     }
 
     override fun removeFromFavorite(course: CourseMainData): Completable {
@@ -39,9 +47,9 @@ class CoursesDataRepository @Inject constructor(val api: Api, val db: MainDataba
         }.schedulersIoToMain()
     }
 
-    override fun loadCoursesFromServer(): Flowable<List<CourseMainData>> {
-        return loadCoursesFavoriteFromDb()
-                .mergeWith(loadCourseFromServerImpl())
+    override fun loadCoursesFromServer(searchString: String): Flowable<List<CourseMainData>> {
+        return loadCoursesFavoriteFromDb(searchString)
+                .mergeWith(loadCourseFromServerImpl(searchString))
                 .flatMapIterable { it }
                 .distinct { it.courseId }
                 .toList()
@@ -49,8 +57,8 @@ class CoursesDataRepository @Inject constructor(val api: Api, val db: MainDataba
                 .schedulersIoToMain()
     }
 
-    private fun loadCourseFromServerImpl(): Flowable<List<CourseMainData>> {
-        return api.searchCourses()
+    private fun loadCourseFromServerImpl(searchString: String): Flowable<List<CourseMainData>> {
+        return api.searchCourses(query = searchString)
                 .map { it.courses }
                 .flatMapIterable { it }
                 .map { CourseMainDataConverter.toModel(it) }

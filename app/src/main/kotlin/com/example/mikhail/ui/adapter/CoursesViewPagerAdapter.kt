@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.SearchView
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ImageSpan
@@ -44,4 +45,6 @@ class CoursesViewPagerAdapter(fm: FragmentManager, val context: Context?) : Frag
         }
         return sb
     }
+
+    fun getFirstSearchListener() = fragments[0] as SearchView.OnQueryTextListener
 }

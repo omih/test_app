@@ -26,10 +26,13 @@ class FavoriteCoursesPresenter: BasePresenter<FavoriteCoursesView>() {
     @Inject
     protected lateinit var coursesUseCase: CoursesUseCase
 
-    fun loadFavoriteCourses() {
+    private var searchString = ""
+
+    fun loadFavoriteCourses(search: String = "") {
+        searchString = search
         viewState.progressShow()
         safeSubscribe {
-            coursesUseCase.loadFavoriteCourses()
+            coursesUseCase.loadFavoriteCourses(searchString)
                     .subscribe({
                         if (it.isEmpty()) {
                             viewState.showCoursesAbsent()
@@ -51,7 +54,7 @@ class FavoriteCoursesPresenter: BasePresenter<FavoriteCoursesView>() {
         safeSubscribe {
             coursesUseCase.removeFromFavorite(course)
                     .subscribe(
-                            { loadFavoriteCourses() },
+                            { loadFavoriteCourses(searchString) },
                             { viewState.showCoursesAbsent() } )
         }
     }

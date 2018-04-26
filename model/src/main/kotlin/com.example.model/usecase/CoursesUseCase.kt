@@ -6,9 +6,9 @@ import javax.inject.Inject
 
 class CoursesUseCase @Inject constructor(private val repository: CoursesRepository) {
 
-    fun loadCoursesFromServer() = repository.loadCoursesFromServer()
+    fun loadCoursesFromServer(searchString: String) = repository.loadCoursesFromServer(searchString)
 
-    fun loadFavoriteCourses() = repository.loadCoursesFavorite()
+    fun loadFavoriteCourses(searchString: String) = repository.loadCoursesFavorite(searchString)
 
     fun addToFavorite(course: CourseMainData) = repository.addToFavoriteCourse(course)
     fun removeFromFavorite(course: CourseMainData) = repository.removeFromFavorite(course)

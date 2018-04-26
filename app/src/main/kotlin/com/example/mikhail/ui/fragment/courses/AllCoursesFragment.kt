@@ -2,6 +2,7 @@ package com.example.mikhail.ui.fragment.courses
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,12 +17,11 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_courses_list.*
 
-class AllCoursesFragment: BaseFragment(), AllCoursesView {
-
+class AllCoursesFragment: BaseFragment(), AllCoursesView, SearchView.OnQueryTextListener {
     companion object {
+
         fun newInstance() = AllCoursesFragment()
     }
-
     @InjectPresenter
     internal lateinit var presenter: AllCoursesPresenter
 
@@ -63,10 +63,11 @@ class AllCoursesFragment: BaseFragment(), AllCoursesView {
         coursesAdapter.addAll(courses)
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if (isVisibleToUser && isAdded) {
-            presenter.loadCourses()
-        }
+    override fun onQueryTextSubmit(query: String?) = false
+
+    override fun onQueryTextChange(newText: String): Boolean {
+        presenter.loadCourses(newText)
+        return true
     }
+
 }

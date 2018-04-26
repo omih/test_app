@@ -5,9 +5,9 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 
 interface CoursesRepository {
-    fun loadCoursesFromServer(): Flowable<List<CourseMainData>>
+    fun loadCoursesFromServer(searchString: String): Flowable<List<CourseMainData>>
 
-    fun loadCoursesFavorite(): Flowable<List<CourseMainData>>
+    fun loadCoursesFavorite(searchString: String): Flowable<List<CourseMainData>>
 
     fun addToFavoriteCourse(courseMainData: CourseMainData): Completable
     fun removeFromFavorite(course: CourseMainData): Completable
