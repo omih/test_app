@@ -66,7 +66,9 @@ class AllCoursesFragment: BaseFragment(), AllCoursesView, SearchView.OnQueryText
     override fun onQueryTextSubmit(query: String?) = false
 
     override fun onQueryTextChange(newText: String): Boolean {
-        presenter.loadCourses(newText)
+        if (isAdded) {
+            presenter.loadCourses(newText)
+        }
         return true
     }
 

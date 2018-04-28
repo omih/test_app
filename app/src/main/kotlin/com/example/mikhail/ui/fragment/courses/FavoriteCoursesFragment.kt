@@ -68,7 +68,9 @@ class FavoriteCoursesFragment: BaseFragment(), FavoriteCoursesView, SearchView.O
     override fun onQueryTextSubmit(query: String?) = false
 
     override fun onQueryTextChange(newText: String): Boolean {
-        presenter.loadFavoriteCourses(newText)
+        if (isAdded) {
+            presenter.loadFavoriteCourses(newText)
+        }
         return true
     }
 }
