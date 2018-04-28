@@ -25,6 +25,9 @@ ext {
     jUnitVersion = '4.12'
     espressoCoreVersion = '3.0.1'
     testRunnerVersion = '1.0.1'
+    spekVersion = '1.1.5'
+    jUnitPlatformRunner = '1.0.0'
+    jUnitPlatformEngine = '1.1.5'
 
 
     appDependencies = [
@@ -94,12 +97,16 @@ ext {
     ]
 
     dataTestDependencies = [
-            junit          : "junit:junit:$jUnitVersion",
+            junit              : "junit:junit:$jUnitVersion",
 
-            roomTesting    : "android.arch.persistence.room:testing:$room",
-            testRunner     : "com.android.support.test:runner:$testRunnerVersion",
-            testRules      : "com.android.support.test:rules:$testRunnerVersion",
-            archCoreTesting: "android.arch.core:core-testing:$room"
+            roomTesting        : "android.arch.persistence.room:testing:$room",
+            testRunner         : "com.android.support.test:runner:$testRunnerVersion",
+            testRules          : "com.android.support.test:rules:$testRunnerVersion",
+            archCoreTesting    : "android.arch.core:core-testing:$room",
+            spek               : "org.jetbrains.spek:spek-api:$spekVersion",
+            junitPlatformRunner: "org.junit.platform:junit-platform-runner:$jUnitPlatformRunner",
+            junitPlatformEngine: "org.jetbrains.spek:spek-junit-platform-engine:$jUnitPlatformEngine",
+            kotlinReflect      : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     ]
 

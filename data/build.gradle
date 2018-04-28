@@ -41,6 +41,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    packagingOptions {
+        exclude 'META-INF/LICENSE.md'
+        exclude 'META-INF/LICENSE-notice.md'
+    }
 
 }
 
@@ -73,6 +77,16 @@ dependencies {
     testImplementation depsTest.junit
     androidTestImplementation depsTest.junit
     androidTestImplementation depsTest.testRunner
+
+    testImplementation (depsTest.spek, {
+        exclude group: 'org.jetbrains.kotlin'
+    })
+    testImplementation depsTest.junitPlatformRunner
+    testImplementation (depsTest.junitPlatformEngine, {
+        exclude group: 'org.junit.platform'
+        exclude group: 'org.jetbrains.kotlin'
+    })
+    testImplementation depsTest.kotlinReflect
 }
 repositories {
     mavenCentral()
