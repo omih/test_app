@@ -31,7 +31,7 @@ class AllCoursesPresenter : BasePresenter<AllCoursesView>() {
     fun loadCourses(search: String = "") {
         searchString = search
         viewState.progressShow()
-        safeSubscribe {
+        safeSingleSubscribe {
             coursesUseCase.loadCoursesFromServer(searchString)
                     .subscribe({
                         if (it.isEmpty()) {

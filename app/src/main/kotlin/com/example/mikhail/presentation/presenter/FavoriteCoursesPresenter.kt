@@ -31,7 +31,7 @@ class FavoriteCoursesPresenter: BasePresenter<FavoriteCoursesView>() {
     fun loadFavoriteCourses(search: String = "") {
         searchString = search
         viewState.progressShow()
-        safeSubscribe {
+        safeSingleSubscribe {
             coursesUseCase.loadFavoriteCourses(searchString)
                     .subscribe({
                         if (it.isEmpty()) {

@@ -8,13 +8,16 @@ import io.reactivex.disposables.Disposable
 
 open class BasePresenter<T : MvpView> : MvpPresenter<T>() {
     private val compositeDisposable by lazy { CompositeDisposable() }
+    private val singleDisposable by lazy { CompositeDisposable() }
 
     fun dispose() {
         compositeDisposable.dispose()
+        singleDisposable.dispose()
     }
 
     fun clear() {
         compositeDisposable.clear()
+        singleDisposable.clear()
     }
 
     override fun onDestroy() {
@@ -24,5 +27,10 @@ open class BasePresenter<T : MvpView> : MvpPresenter<T>() {
 
     fun safeSubscribe(action: () -> Disposable) {
         compositeDisposable.add(action())
+    }
+
+    fun safeSingleSubscribe(action: () -> Disposable) {
+        singleDisposable.clear()
+        singleDisposable.add(action())
     }
 }
