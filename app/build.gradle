@@ -80,4 +80,6 @@ dependencies {
 
     androidTestImplementation depsTest.junit
     androidTestImplementation depsTest.testRunner
+    androidTestImplementation depsTest.uiautomator
+
 }
