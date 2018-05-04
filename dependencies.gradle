@@ -28,6 +28,8 @@ ext {
     jUnitPlatformRunner = '1.0.0'
     jUnitPlatformEngine = '1.1.5'
     uiAutomatorVersion = '2.1.3'
+    mockitoCoreVersion = '2.18.3'
+    mockitoAndroidVersion = '2.7.22'
 
 
     appDependencies = [
@@ -106,7 +108,9 @@ ext {
             spek               : "org.jetbrains.spek:spek-api:$spekVersion",
             junitPlatformRunner: "org.junit.platform:junit-platform-runner:$jUnitPlatformRunner",
             junitPlatformEngine: "org.jetbrains.spek:spek-junit-platform-engine:$jUnitPlatformEngine",
-            kotlinReflect      : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+            kotlinReflect      : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
+            mockitoCore        : "org.mockito:mockito-core:$mockitoCoreVersion",
+            mockitoAndroid     : "org.mockito:mockito-android:$mockitoAndroidVersion"
 
     ]
 

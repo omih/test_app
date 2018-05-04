@@ -87,6 +87,10 @@ dependencies {
         exclude group: 'org.jetbrains.kotlin'
     })
     testImplementation depsTest.kotlinReflect
+
+    testImplementation depsTest.mockitoCore
+
+    androidTestImplementation depsTest.mockitoAndroid
 }
 repositories {
     mavenCentral()
