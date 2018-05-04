@@ -9,7 +9,6 @@ import com.example.model.model.CourseMainData
 import com.example.model.usecase.CoursesUseCase
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
-import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 @InjectViewState
@@ -19,9 +18,6 @@ class FavoriteCoursesPresenter: BasePresenter<FavoriteCoursesView>() {
 
         loadFavoriteCourses()
     }
-
-    @Inject
-    protected lateinit var router: Router
 
     @Inject
     protected lateinit var coursesUseCase: CoursesUseCase

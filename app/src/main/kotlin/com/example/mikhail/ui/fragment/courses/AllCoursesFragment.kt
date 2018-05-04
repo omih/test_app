@@ -27,6 +27,8 @@ class AllCoursesFragment: BaseFragment(), AllCoursesView, SearchView.OnQueryText
 
     private val coursesAdapter = GroupAdapter<ViewHolder>()
 
+    private var searchString: String = ""
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_courses_list, container, false)
     }
@@ -66,10 +68,16 @@ class AllCoursesFragment: BaseFragment(), AllCoursesView, SearchView.OnQueryText
     override fun onQueryTextSubmit(query: String?) = false
 
     override fun onQueryTextChange(newText: String): Boolean {
-        if (isAdded) {
+        searchString = newText
+        if (this::presenter.isInitialized) {
             presenter.loadCourses(newText)
         }
         return true
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        onQueryTextChange(searchString)
     }
 
 }
