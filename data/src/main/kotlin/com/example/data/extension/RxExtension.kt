@@ -1,13 +1,12 @@
 package com.example.data.extension
 
+import com.example.data.scheduler.SchedulerProvider
 import io.reactivex.*
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 //region Single
-fun <T> Single<T>.schedulersIoToMain(): Single<T> {
-    return subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+fun <T> Single<T>.schedulersIoToMain(schedulers: SchedulerProvider): Single<T> {
+    return subscribeOn(schedulers.io()).observeOn(schedulers.ui())
 }
 
 fun <T> Single<T>.logError(): Single<T> {
@@ -16,8 +15,8 @@ fun <T> Single<T>.logError(): Single<T> {
 //endregion
 
 //region Observable
-fun <T> Observable<T>.schedulersIoToMain(): Observable<T> {
-    return subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+fun <T> Observable<T>.schedulersIoToMain(schedulers: SchedulerProvider): Observable<T> {
+    return subscribeOn(schedulers.io()).observeOn(schedulers.ui())
 }
 
 fun <T> Observable<T>.logError(): Observable<T> {
@@ -26,8 +25,8 @@ fun <T> Observable<T>.logError(): Observable<T> {
 //endregion
 
 //region Flowable
-fun <T> Flowable<T>.schedulersIoToMain(): Flowable<T> {
-    return subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+fun <T> Flowable<T>.schedulersIoToMain(schedulers: SchedulerProvider): Flowable<T> {
+    return subscribeOn(schedulers.io()).observeOn(schedulers.ui())
 }
 
 fun <T> Flowable<T>.logError(): Flowable<T> {
@@ -36,8 +35,8 @@ fun <T> Flowable<T>.logError(): Flowable<T> {
 //endregion
 
 //region Completable
-fun Completable.schedulersIoToMain(): Completable {
-    return subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+fun Completable.schedulersIoToMain(schedulers: SchedulerProvider): Completable {
+    return subscribeOn(schedulers.io()).observeOn(schedulers.ui())
 }
 
 fun Completable.logError(): Completable {
@@ -46,8 +45,8 @@ fun Completable.logError(): Completable {
 //endregion
 
 //region Maybe
-fun <T> Maybe<T>.schedulersIoToMain(): Maybe<T> {
-    return subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+fun <T> Maybe<T>.schedulersIoToMain(schedulers: SchedulerProvider): Maybe<T> {
+    return subscribeOn(schedulers.io()).observeOn(schedulers.ui())
 }
 
 fun <T> Maybe<T>.logError(): Maybe<T> {

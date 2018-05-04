@@ -5,6 +5,8 @@ import android.content.Context
 import com.example.data.network.ClientFactory
 import com.example.data.network.api.Api
 import com.example.data.network.api.ApiFactory
+import com.example.data.scheduler.AppSchedulerProvider
+import com.example.data.scheduler.SchedulerProvider
 import com.example.data.storage.MainDatabase
 import com.example.mikhail.internal.di.component.courses.CoursesComponent
 import com.example.mikhail.internal.di.scope.AppScope
@@ -41,5 +43,9 @@ class AppModule(private val context: Context) {
     @Provides
     @AppScope
     fun provideNetworkClient() = ClientFactory()
+
+    @Provides
+    @AppScope
+    fun provideRxSchedulers(): SchedulerProvider = AppSchedulerProvider
 
 }
