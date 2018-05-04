@@ -36,29 +36,48 @@ class UiAutomatorTest {
 
     @Test
     fun testFavoriteIsEmpty() {
-        var firstCourse = getItemFromDisplayedCourses(0)
-        while (courseIsFavorite(firstCourse)) {
-            firstCourse.clickAndWaitForNewWindow()
-            firstCourse = getItemFromDisplayedCourses(0)
-        }
+        clearFavoriteCourses()
 
         val viewPager = getUiObjectById("courses_viewpager")
         viewPager.swipeLeft(10)
         assertTrue(!getListDisplayedCourses().exists())
     }
 
+    private fun clearFavoriteCourses() {
+        var firstCourse = getItemFromDisplayedCourses(0)
+        while (courseIsFavorite(firstCourse)) {
+            firstCourse.clickAndWaitForNewWindow()
+            firstCourse = getItemFromDisplayedCourses(0)
+        }
+    }
+
     @Test
     fun testAddFavorite() {
-        val firstCourse = getItemFromDisplayedCourses(0)
-        if (!courseIsFavorite(firstCourse)) {
-            firstCourse.clickAndWaitForNewWindow()
+        val coursesCount = getListDisplayedCourses().childCount
+        var favoriteCount = 0
+        for (index in 0..coursesCount) {
+            favoriteCount = index
+            val course = getItemFromDisplayedCourses(index)
+            if (!courseIsFavorite(course)) {
+                course.clickAndWaitForNewWindow()
+                break
+            }
         }
+        favoriteCount = fromIndexCountToQuantityCourses(favoriteCount)
+
         val viewPager = getUiObjectById("courses_viewpager")
         viewPager.swipeLeft(10)
 
         val count = getListDisplayedCourses().childCount
 
-        assertEquals(1, count)
+        assertEquals(favoriteCount, count)
+        assertEquals(false, getUiObjectById("absent_title").exists())
+    }
+
+    private fun fromIndexCountToQuantityCourses(favoriteCount: Int): Int {
+        var favoriteCount1 = favoriteCount
+        favoriteCount1++
+        return favoriteCount1
     }
 
     @Test
@@ -76,14 +95,17 @@ class UiAutomatorTest {
     @Test
     fun testSearchFavoriteCourses() {
         device.waitForIdle(timeOut)
-        val resultTitle = listOf("TOEFL vocabulary", "Common English Verbs", "Data Structures", "Easy Way to Technical Writing", "Common English Adjectives")
-        val searchString = listOf("toefl", "verbs", "data", "way", "adjectives")
+        val resultTitle = mutableListOf<String>()
+        val searchString = mutableListOf<String>()
 
         for (i in 0..4) {
             val course = getItemFromDisplayedCourses(i)
             if (!courseIsFavorite(course)) {
                 course.clickAndWaitForNewWindow()
             }
+            val courseTitle = course.getChildById("course_title").text
+            resultTitle.add(courseTitle)
+            searchString.add(courseTitle.split(" ")[0])
         }
 
         val viewPager = getUiObjectById("courses_viewpager")
