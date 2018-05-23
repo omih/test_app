@@ -11,20 +11,24 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import javax.inject.Inject
 
-class CoursesDataRepository @Inject constructor(val api: Api, val db: MainDatabase, val schedulers: SchedulerProvider) : CoursesRepository {
+class CoursesDataRepository @Inject constructor(
+    val api: Api,
+    val db: MainDatabase,
+    val schedulers: SchedulerProvider
+) : CoursesRepository {
     override fun loadCoursesFavorite(searchString: String): Flowable<List<CourseMainData>> {
         return loadCoursesFavoriteFromDb(searchString)
-                .schedulersIoToMain(schedulers)
+            .schedulersIoToMain(schedulers)
     }
 
     private fun loadCoursesFavoriteFromDb(searchString: String): Flowable<List<CourseMainData>> {
         return db.coursesMainDataDao()
-                .allCourses()
-                .flattenAsFlowable { it }
-                .map { CourseMainDataConverter.toModel(it) }
-                .filter { filterCourseByString(searchString, it) }
-                .toList()
-                .toFlowable()
+            .allCourses()
+            .flattenAsFlowable { it }
+            .map { CourseMainDataConverter.toModel(it) }
+            .filter { filterCourseByString(searchString, it) }
+            .toList()
+            .toFlowable()
     }
 
     private fun filterCourseByString(searchString: String, it: CourseMainData): Boolean {
@@ -37,33 +41,33 @@ class CoursesDataRepository @Inject constructor(val api: Api, val db: MainDataba
     override fun removeFromFavorite(course: CourseMainData): Completable {
         return Completable.fromCallable {
             db.coursesMainDataDao()
-                    .delete(CourseMainDataConverter.toEntity(course))
+                .delete(CourseMainDataConverter.toEntity(course))
         }.schedulersIoToMain(schedulers)
     }
 
     override fun addToFavoriteCourse(courseMainData: CourseMainData): Completable {
         return Completable.fromCallable {
             db.coursesMainDataDao()
-                    .insert(CourseMainDataConverter.toEntity(courseMainData))
+                .insert(CourseMainDataConverter.toEntity(courseMainData))
         }.schedulersIoToMain(schedulers)
     }
 
     override fun loadCoursesFromServer(searchString: String): Flowable<List<CourseMainData>> {
         return loadCoursesFavoriteFromDb(searchString)
-                .mergeWith(loadCourseFromServerImpl(searchString))
-                .flatMapIterable { it }
-                .distinct { it.courseId }
-                .toList()
-                .toFlowable()
-                .schedulersIoToMain(schedulers)
+            .mergeWith(loadCourseFromServerImpl(searchString))
+            .flatMapIterable { it }
+            .distinct { it.courseId }
+            .toList()
+            .toFlowable()
+            .schedulersIoToMain(schedulers)
     }
 
     private fun loadCourseFromServerImpl(searchString: String): Flowable<List<CourseMainData>> {
         return api.searchCourses(query = searchString)
-                .map { it.courses }
-                .flatMapIterable { it }
-                .map { CourseMainDataConverter.toModel(it) }
-                .toList()
-                .toFlowable()
+            .map { it.courses }
+            .flatMapIterable { it }
+            .map { CourseMainDataConverter.toModel(it) }
+            .toList()
+            .toFlowable()
     }
 }

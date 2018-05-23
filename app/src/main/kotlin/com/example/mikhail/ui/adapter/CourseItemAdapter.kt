@@ -1,7 +1,7 @@
 package com.example.mikhail.ui.adapter
 
 import com.example.mikhail.R
-import com.example.mikhail.internal.GlideApp
+import com.example.mikhail.core.GlideApp
 import com.example.model.model.CourseMainData
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder

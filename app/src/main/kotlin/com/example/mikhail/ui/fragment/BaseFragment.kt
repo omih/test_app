@@ -1,8 +1,12 @@
 package com.example.mikhail.ui.fragment
 
-import com.arellomobile.mvp.MvpAppCompatFragment
-import com.arellomobile.mvp.MvpView
+import android.arch.lifecycle.ViewModelProvider
+import android.support.v4.app.Fragment
+import javax.inject.Inject
 
-abstract class BaseFragment : MvpAppCompatFragment(), MvpView {
+abstract class BaseFragment : Fragment() {
+
+    @Inject
+    protected lateinit var viewModelFactory: ViewModelProvider.Factory
 
 }

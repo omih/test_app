@@ -14,7 +14,7 @@ class ClientFactory {
 
     fun create(): OkHttpClient {
         val builder = getPreconfiguredClientBuilder()
-                .addInterceptor(getLoggingInterceptor())
+            .addInterceptor(getLoggingInterceptor())
 
         return builder.build()
     }
@@ -28,10 +28,10 @@ class ClientFactory {
 
     private fun getLoggingInterceptor(): LoggingInterceptor {
         return LoggingInterceptor.Builder()
-                .loggable(BuildConfig.DEBUG)
-                .setLevel(Level.BASIC)
-                .request("Request")
-                .response("Response")
-                .build()
+            .loggable(BuildConfig.DEBUG)
+            .setLevel(Level.BASIC)
+            .request("Request")
+            .response("Response")
+            .build()
     }
 }

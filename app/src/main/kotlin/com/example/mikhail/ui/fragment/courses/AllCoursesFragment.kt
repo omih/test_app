@@ -6,30 +6,46 @@ import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.mikhail.R
-import com.example.mikhail.presentation.presenter.AllCoursesPresenter
-import com.example.mikhail.presentation.view.AllCoursesView
+import com.example.mikhail.core.di.DI
+import com.example.mikhail.core.extension.failure
+import com.example.mikhail.core.extension.success
+import com.example.mikhail.core.extension.viewModel
 import com.example.mikhail.ui.adapter.CourseItemAdapter
 import com.example.mikhail.ui.fragment.BaseFragment
+import com.example.mikhail.viewmodel.AllCoursesViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_courses_list.*
 
-class AllCoursesFragment: BaseFragment(), AllCoursesView, SearchView.OnQueryTextListener {
+class AllCoursesFragment : BaseFragment(), SearchView.OnQueryTextListener {
     companion object {
-
         fun newInstance() = AllCoursesFragment()
     }
-    @InjectPresenter
-    internal lateinit var presenter: AllCoursesPresenter
 
     private val coursesAdapter = GroupAdapter<ViewHolder>()
 
+    private lateinit var allCoursesViewModel: AllCoursesViewModel
+
     private var searchString: String = ""
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        DI.componentManager.courseComponent.inject(this)
+
+        allCoursesViewModel = viewModel(viewModelFactory) {
+            success(courses, ::showAllCourses)
+            failure(failure, ::showCoursesAbsent)
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_courses_list, container, false)
     }
 
@@ -42,35 +58,52 @@ class AllCoursesFragment: BaseFragment(), AllCoursesView, SearchView.OnQueryText
         }
 
         coursesAdapter.setOnItemClickListener { item, _ ->
-            presenter.addOrRemoveFromFavorite((item as CourseItemAdapter).course)
+            progressShow()
+            allCoursesViewModel.addOrRemoveFromFavorite((item as CourseItemAdapter).course)
         }
 
-        absent_repeat.setOnClickListener { presenter.loadCourses() }
+        absent_repeat.setOnClickListener {
+            loadAllCourses()
+        }
+
+        loadAllCourses()
     }
 
-    override fun progressShow() {
+    private fun loadAllCourses() {
+        progressShow()
+        allCoursesViewModel.loadCourses()
+    }
+
+    private fun progressShow() {
         loading_courses_state.showLoading()
     }
 
-    override fun contentShow() {
+    private fun contentShow() {
         loading_courses_state.showContent()
     }
 
-    override fun showCoursesAbsent() {
+    fun showCoursesAbsent() {
         loading_courses_state.showStub()
     }
 
-    override fun showAllCourses(courses: List<Item<ViewHolder>>) {
+    fun showAllCourses(courses: List<Item<ViewHolder>>?) {
         coursesAdapter.clear()
-        coursesAdapter.addAll(courses)
+        courses?.let {
+            if (it.isEmpty()) {
+                showCoursesAbsent()
+            } else {
+                contentShow()
+                coursesAdapter.addAll(it)
+            }
+        } ?: showCoursesAbsent()
     }
 
     override fun onQueryTextSubmit(query: String?) = false
 
     override fun onQueryTextChange(newText: String): Boolean {
         searchString = newText
-        if (this::presenter.isInitialized) {
-            presenter.loadCourses(newText)
+        if (this::allCoursesViewModel.isInitialized) {
+            allCoursesViewModel.loadCourses(newText)
         }
         return true
     }

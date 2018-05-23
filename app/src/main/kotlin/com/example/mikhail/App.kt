@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import com.example.data.storage.MainDatabase
-import com.example.mikhail.internal.di.DI
+import com.example.mikhail.core.di.DI
 import javax.inject.Inject
 
 class App : Application() {
