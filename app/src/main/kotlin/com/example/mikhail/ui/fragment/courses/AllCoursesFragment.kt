@@ -1,8 +1,9 @@
 package com.example.mikhail.ui.fragment.courses
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +15,13 @@ import com.example.mikhail.core.extension.viewModel
 import com.example.mikhail.ui.adapter.CourseItemAdapter
 import com.example.mikhail.ui.fragment.BaseFragment
 import com.example.mikhail.viewmodel.AllCoursesViewModel
+import com.example.mikhail.viewmodel.SharedStringViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_courses_list.*
 
-class AllCoursesFragment : BaseFragment(), SearchView.OnQueryTextListener {
+class AllCoursesFragment : BaseFragment() {
     companion object {
         fun newInstance() = AllCoursesFragment()
     }
@@ -27,18 +29,25 @@ class AllCoursesFragment : BaseFragment(), SearchView.OnQueryTextListener {
     private val coursesAdapter = GroupAdapter<ViewHolder>()
 
     private lateinit var allCoursesViewModel: AllCoursesViewModel
-
-    private var searchString: String = ""
+    private lateinit var sharedStringViewModel: SharedStringViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         DI.componentManager.courseComponent.inject(this)
 
+        initViewModel()
+    }
+
+    private fun initViewModel() {
         allCoursesViewModel = viewModel(viewModelFactory) {
             success(courses, ::showAllCourses)
             failure(failure, ::showCoursesAbsent)
         }
+
+        sharedStringViewModel =
+                ViewModelProviders.of(requireActivity())[SharedStringViewModel::class.java]
+        sharedStringViewModel.searchQuery.observe(this, Observer(::searchQuery))
     }
 
     override fun onCreateView(
@@ -82,11 +91,11 @@ class AllCoursesFragment : BaseFragment(), SearchView.OnQueryTextListener {
         loading_courses_state.showContent()
     }
 
-    fun showCoursesAbsent() {
+    private fun showCoursesAbsent() {
         loading_courses_state.showStub()
     }
 
-    fun showAllCourses(courses: List<Item<ViewHolder>>?) {
+    private fun showAllCourses(courses: List<Item<ViewHolder>>?) {
         coursesAdapter.clear()
         courses?.let {
             if (it.isEmpty()) {
@@ -98,19 +107,9 @@ class AllCoursesFragment : BaseFragment(), SearchView.OnQueryTextListener {
         } ?: showCoursesAbsent()
     }
 
-    override fun onQueryTextSubmit(query: String?) = false
-
-    override fun onQueryTextChange(newText: String): Boolean {
-        searchString = newText
-        if (this::allCoursesViewModel.isInitialized) {
-            allCoursesViewModel.loadCourses(newText)
+    private fun searchQuery(query: String?) {
+        query?.let {
+            allCoursesViewModel.loadCourses(query)
         }
-        return true
     }
-
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        onQueryTextChange(searchString)
-    }
-
 }

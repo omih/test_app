@@ -1,7 +1,7 @@
 package com.example.mikhail.ui.fragment.courses
 
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.view.ViewPager
 import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.example.mikhail.R
 import com.example.mikhail.ui.adapter.CoursesViewPagerAdapter
 import com.example.mikhail.ui.fragment.BaseFragment
+import com.example.mikhail.viewmodel.SharedStringViewModel
 import kotlinx.android.synthetic.main.fragment_courses.*
 
 
@@ -18,8 +19,14 @@ class CoursesFragment : BaseFragment() {
         fun newInstance() = CoursesFragment()
     }
 
-    private lateinit var searchListener: SearchView.OnQueryTextListener
-    private var searchString = ""
+    lateinit var sharedStringViewModel: SharedStringViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        sharedStringViewModel =
+                ViewModelProviders.of(requireActivity())[SharedStringViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,17 +46,29 @@ class CoursesFragment : BaseFragment() {
     private fun initToolbar() {
         with(toolbar) {
             inflateMenu(R.menu.search)
-            val searchView = menu.findItem(R.id.courses_search).actionView as SearchView
+            val searchItem = menu.findItem(R.id.courses_search)
+            val searchView = searchItem.actionView as SearchView
+
+            restoreSearchView(searchView)
+
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String) =
-                    searchListener.onQueryTextSubmit(query)
+                override fun onQueryTextSubmit(query: String) = false
 
                 override fun onQueryTextChange(newText: String): Boolean {
-                    searchString = newText
-                    return searchListener.onQueryTextChange(newText)
+                    sharedStringViewModel.searchQuery.value = newText
+                    return true
                 }
-
             })
+        }
+    }
+
+    private fun restoreSearchView(searchView: SearchView) {
+        sharedStringViewModel.searchQuery.value?.let {
+            if (it.isNotEmpty()) {
+                searchView.isIconified = false
+                searchView.setQuery(it, false)
+                searchView.clearFocus()
+            }
         }
     }
 
@@ -57,24 +76,6 @@ class CoursesFragment : BaseFragment() {
         with(courses_viewpager) {
             val adapter = CoursesViewPagerAdapter(childFragmentManager, context)
             courses_viewpager.adapter = adapter
-
-            courses_viewpager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-                override fun onPageScrollStateChanged(state: Int) {}
-
-                override fun onPageScrolled(
-                    position: Int,
-                    positionOffset: Float,
-                    positionOffsetPixels: Int
-                ) {
-                }
-
-                override fun onPageSelected(position: Int) {
-                    searchListener = adapter.getItem(position) as SearchView.OnQueryTextListener
-                    searchListener.onQueryTextChange(searchString)
-                }
-            })
-
-            searchListener = adapter.getFirstSearchListener()
         }
 
         courses_tabs.setupWithViewPager(courses_viewpager)
