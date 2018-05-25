@@ -58,21 +58,19 @@ dependencies {
     implementation deps.dagger
     kapt deps.daggerCompiler
     implementation deps.kotlinStdlib
-    implementation deps.rxJava
-    implementation deps.rxAndroid
     implementation deps.jodaTime
     implementation deps.timber
     implementation deps.prettyLogger
     implementation deps.room
-    implementation deps.roomRx
     implementation deps.okHttp
     implementation deps.retrofit
     implementation deps.retrofitGsonConverter
-    implementation deps.retrofitRxAdapter
     kapt deps.roomCompiler
     implementation(debugDeps.loggingInterceptor, {
         exclude group: 'org.json', module: 'json'
     })
+
+    implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:1.0.0'
 
     testImplementation depsTest.junit
     androidTestImplementation depsTest.junit

@@ -78,6 +78,11 @@ class AllCoursesFragment : BaseFragment() {
         loadAllCourses()
     }
 
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (this::allCoursesViewModel.isInitialized) allCoursesViewModel.refreshCourses()
+    }
+
     private fun loadAllCourses() {
         progressShow()
         allCoursesViewModel.loadCourses()

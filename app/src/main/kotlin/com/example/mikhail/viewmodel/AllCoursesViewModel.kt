@@ -6,6 +6,9 @@ import com.example.model.model.CourseMainData
 import com.example.model.usecase.CoursesUseCase
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
+import kotlinx.coroutines.experimental.CoroutineExceptionHandler
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
 class AllCoursesViewModel
@@ -14,15 +17,15 @@ class AllCoursesViewModel
 
     private var searchString = ""
 
+    private val catchLoadCourses = CoroutineExceptionHandler { _, _ ->
+        createView(listOf())
+    }
+
     fun loadCourses(search: String = "") {
         searchString = search
-        safeSingleSubscribe {
-            coursesUseCase.loadCoursesFromServer(searchString)
-                .subscribe({
-                    createView(it)
-                }, {
-                    createView(listOf())
-                })
+        launch(UI + catchLoadCourses) {
+            val result = coursesUseCase.loadCoursesFromServer(searchString)
+            createView(result.await())
         }
     }
 
@@ -31,18 +34,18 @@ class AllCoursesViewModel
     }
 
     fun addOrRemoveFromFavorite(course: CourseMainData) {
-        safeSingleSubscribe {
+        launch {
             if (course.favorite) {
                 coursesUseCase.removeFromFavorite(course)
-                    .subscribe({
-                        loadCourses(searchString)
-                    }, {})
             } else {
                 coursesUseCase.addToFavorite(course)
-                    .subscribe({
-                        loadCourses(searchString)
-                    }, {})
-            }
+            }.await()
+        }.invokeOnCompletion {
+            loadCourses(searchString)
         }
+    }
+
+    fun refreshCourses() {
+        loadCourses(searchString)
     }
 }

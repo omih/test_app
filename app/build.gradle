@@ -45,12 +45,14 @@ android {
 }
 
 dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     def deps = rootProject.ext.appDependencies
     def depsTest = rootProject.ext.appTestDependencies
 
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation deps.dagger
+    kapt deps.glideCompiler
+    kapt deps.archComponentsCompiler
     kapt deps.daggerCompiler
+    implementation deps.dagger
     implementation deps.appcompat
     implementation deps.kotlinStdlib
     implementation deps.supportDesign
@@ -58,26 +60,32 @@ dependencies {
     implementation deps.jodaTime
     implementation deps.timber
     implementation deps.prettyLogger
-    implementation deps.rxJava
-    implementation deps.rxAndroid
     implementation deps.groupie
     implementation deps.constraintLayout
     implementation deps.okHttp
     implementation deps.retrofit
     implementation deps.retrofitGsonConverter
-    implementation deps.retrofitRxAdapter
     implementation (deps.glide, {
         exclude group: 'com.android.support'
     })
-    kapt deps.glideCompiler
     implementation deps.cardView
     implementation deps.archComponents
-    kapt deps.archComponentsCompiler
+
+    implementation deps.kotlinCoroutines
+    implementation deps.kotlinCoroutinesAndroid
+
     implementation project(':model')
     implementation project(':data')
+
 
     androidTestImplementation depsTest.junit
     androidTestImplementation depsTest.testRunner
     androidTestImplementation depsTest.uiautomator
 
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }

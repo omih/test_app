@@ -77,6 +77,11 @@ class FavoriteCoursesFragment : BaseFragment() {
         loadCourses()
     }
 
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (this::viewModel.isInitialized) viewModel.refreshCourses()
+    }
+
     private fun loadCourses() {
         progressShow()
         viewModel.loadFavoriteCourses()

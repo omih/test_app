@@ -7,16 +7,18 @@ import com.example.data.model.entity.CourseMainDataEntity
 import com.example.data.storage.converter.*
 import com.example.data.storage.dao.CoursesMainDataDao
 
-@Database(entities = [
-    CourseMainDataEntity::class
-], version = 1)
+@Database(
+    entities = [
+        CourseMainDataEntity::class
+    ], version = 1
+)
 @TypeConverters(
-        BooleanTypesConverter::class,
-        CommonTypesConverter::class,
-        LocalDateTimeConverter::class,
-        LongListTypeConverter::class,
-        StringListTypeConverter::class,
-        UUIDListTypeConverter::class
+    BooleanTypesConverter::class,
+    CommonTypesConverter::class,
+    LocalDateTimeConverter::class,
+    LongListTypeConverter::class,
+    StringListTypeConverter::class,
+    UUIDListTypeConverter::class
 )
 abstract class MainDatabase : RoomDatabase() {
     companion object {

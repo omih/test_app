@@ -38,10 +38,11 @@ dependencies {
     implementation deps.jodaTime
     implementation deps.timber
     implementation deps.prettyLogger
-    implementation deps.rxJava
     implementation deps.dagger
     kapt deps.daggerCompiler
     implementation deps.kotlinStdlib
+    implementation deps.kotlinCoroutines
+
 
     testImplementation depsTest.junit
     androidTestImplementation depsTest.junit
@@ -50,4 +51,10 @@ dependencies {
 }
 repositories {
     mavenCentral()
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }
