@@ -27,7 +27,7 @@ class UiAutomatorTest {
 
         val context = InstrumentationRegistry.getContext()
         val intent = context.packageManager
-                .getLaunchIntentForPackage(packageApp)
+            .getLaunchIntentForPackage(packageApp)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         context.startActivity(intent)
 
@@ -138,11 +138,15 @@ class UiAutomatorTest {
     }
 
     private fun getItemFromDisplayedCourses(index: Int): UiObject {
-        return getListDisplayedCourses().getChildByInstance(UiSelector().resourceId("com.example.mikhail:id/course_card"), index)
+        return getListDisplayedCourses().getChildByInstance(
+            UiSelector().resourceId("com.example.mikhail:id/course_card"),
+            index
+        )
     }
 
     private fun courseIsFavorite(course: UiObject): Boolean {
-        return course.getChild(UiSelector().resourceId("com.example.mikhail:id/course_favorite")).isChecked
+        return course.getChild(UiSelector().resourceId("com.example.mikhail:id/course_favorite"))
+            .isChecked
     }
 
     private fun getUiObjectById(id: String): UiObject {

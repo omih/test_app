@@ -15,12 +15,12 @@ class CoursesUseCase
 
     fun addToFavorite(course: CourseMainData) =
         async {
-            repository.addToFavoriteCourseX(course)
+            repository.addToFavoriteCourse(course)
         }
 
     fun removeFromFavorite(course: CourseMainData) =
         async {
-            repository.removeFavoriteCourseX(course.courseId)
+            repository.removeFavoriteCourse(course.courseId)
         }
 
     fun loadCoursesFromServer(searchString: String) =

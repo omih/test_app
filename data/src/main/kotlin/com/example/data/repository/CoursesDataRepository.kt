@@ -12,11 +12,11 @@ class CoursesDataRepository @Inject constructor(
     val db: MainDatabase
 ) : CoursesRepository {
 
-    override fun removeFavoriteCourseX(course: Long) {
+    override fun removeFavoriteCourse(course: Long) {
         db.coursesMainDataDao().deleteCourse(course)
     }
 
-    override fun addToFavoriteCourseX(course: CourseMainData) {
+    override fun addToFavoriteCourse(course: CourseMainData) {
         db.coursesMainDataDao().insert(CourseMainDataConverter.toEntity(course))
     }
 
