@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlinx-serialization'
 
 android {
     Properties props = new Properties()
@@ -62,15 +63,16 @@ dependencies {
     implementation deps.timber
     implementation deps.prettyLogger
     implementation deps.room
-    implementation deps.okHttp
-    implementation deps.retrofit
-    implementation deps.retrofitGsonConverter
     kapt deps.roomCompiler
     implementation(debugDeps.loggingInterceptor, {
         exclude group: 'org.json', module: 'json'
     })
 
-    implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:1.0.0'
+    implementation deps.ktorAndroid
+    implementation deps.ktorJson
+    implementation deps.ktorGson
+    implementation deps.kotlinxSerializationRuntimeCommon
+    implementation deps.kotlinxSerializationRuntime
 
     testImplementation depsTest.junit
     androidTestImplementation depsTest.junit
@@ -89,7 +91,4 @@ dependencies {
     testImplementation depsTest.mockitoCore
 
     androidTestImplementation depsTest.mockitoAndroid
-}
-repositories {
-    mavenCentral()
 }

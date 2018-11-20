@@ -62,9 +62,6 @@ dependencies {
     implementation deps.prettyLogger
     implementation deps.groupie
     implementation deps.constraintLayout
-    implementation deps.okHttp
-    implementation deps.retrofit
-    implementation deps.retrofitGsonConverter
     implementation (deps.glide, {
         exclude group: 'com.android.support'
     })
@@ -73,6 +70,7 @@ dependencies {
 
     implementation deps.kotlinCoroutines
     implementation deps.kotlinCoroutinesAndroid
+    implementation deps.ktorAndroid
 
     implementation project(':model')
     implementation project(':data')

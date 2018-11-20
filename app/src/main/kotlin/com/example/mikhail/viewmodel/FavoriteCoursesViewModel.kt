@@ -6,9 +6,10 @@ import com.example.model.model.CourseMainData
 import com.example.model.usecase.CoursesUseCase
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
-import kotlinx.coroutines.experimental.CoroutineExceptionHandler
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FavoriteCoursesViewModel
@@ -23,7 +24,7 @@ class FavoriteCoursesViewModel
 
     fun loadFavoriteCourses(search: String = "") {
         searchString = search
-        launch(UI + catchLoadCourses) {
+        GlobalScope.launch(Dispatchers.Main + catchLoadCourses) {
             val result = coursesUseCase.loadFavoriteCourses(searchString)
             createView(result.await())
         }
@@ -34,7 +35,7 @@ class FavoriteCoursesViewModel
     }
 
     fun removeFromFavorite(course: CourseMainData) {
-        launch(UI + catchLoadCourses) {
+        GlobalScope.launch(Dispatchers.Main + catchLoadCourses) {
             coursesUseCase.removeFromFavorite(course).await()
         }.invokeOnCompletion {
             loadFavoriteCourses(searchString)

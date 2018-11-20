@@ -2,29 +2,30 @@ package com.example.model.usecase
 
 import com.example.model.model.CourseMainData
 import com.example.model.repository.CoursesRepository
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import javax.inject.Inject
 
 class CoursesUseCase
 @Inject constructor(private val repository: CoursesRepository) {
 
     fun loadFavoriteCourses(searchString: String) =
-        async {
+        GlobalScope.async {
             repository.coursesFromLocal(searchString)
         }
 
     fun addToFavorite(course: CourseMainData) =
-        async {
+        GlobalScope.async {
             repository.addToFavoriteCourse(course)
         }
 
     fun removeFromFavorite(course: CourseMainData) =
-        async {
+        GlobalScope.async {
             repository.removeFavoriteCourse(course.courseId)
         }
 
     fun loadCoursesFromServer(searchString: String) =
-        async {
+        GlobalScope.async {
             val coursesFromServer = repository.loadCoursesFromServer(searchString)
             val idFavoriteCourses = repository.favoriteCoursesId()
 

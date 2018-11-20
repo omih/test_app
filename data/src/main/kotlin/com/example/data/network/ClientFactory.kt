@@ -1,37 +1,27 @@
 package com.example.data.network
 
-import com.example.data.data.BuildConfig
-import com.ihsanbal.logging.Level
-import com.ihsanbal.logging.LoggingInterceptor
-import okhttp3.OkHttpClient
-import java.util.concurrent.TimeUnit
+import com.example.data.network.deserializer.BooleanDeserializer
+import com.example.data.network.deserializer.IsoDateTimeDeserializer
+import com.example.data.network.deserializer.IsoLocalDateTimeDeserializer
+import com.example.data.network.deserializer.ListDeserializer
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.android.Android
+import io.ktor.client.features.json.GsonSerializer
+import io.ktor.client.features.json.JsonFeature
+import org.joda.time.DateTime
+import org.joda.time.LocalDateTime
 
 class ClientFactory {
 
-    private val CONNECT_TIMEOUT_MILLIS = 120000L
-    private val READ_TIMEOUT_MILLIS = 120000L
-
-
-    fun create(): OkHttpClient {
-        val builder = getPreconfiguredClientBuilder()
-            .addInterceptor(getLoggingInterceptor())
-
-        return builder.build()
-    }
-
-    private fun getPreconfiguredClientBuilder(): OkHttpClient.Builder {
-        return OkHttpClient.Builder().apply {
-            connectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
-            readTimeout(READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+    fun create() = HttpClient(Android) {
+        install(JsonFeature) {
+            serializer = GsonSerializer {
+                registerTypeAdapter(java.lang.Boolean::class.java, BooleanDeserializer())
+                registerTypeAdapter(Boolean::class.java, BooleanDeserializer())
+                registerTypeAdapter(List::class.java, ListDeserializer())
+                registerTypeAdapter(DateTime::class.java, IsoDateTimeDeserializer())
+                registerTypeAdapter(LocalDateTime::class.java, IsoLocalDateTimeDeserializer())
+            }
         }
-    }
-
-    private fun getLoggingInterceptor(): LoggingInterceptor {
-        return LoggingInterceptor.Builder()
-            .loggable(BuildConfig.DEBUG)
-            .setLevel(Level.BASIC)
-            .request("Request")
-            .response("Response")
-            .build()
     }
 }

@@ -4,7 +4,6 @@ import com.example.model.model.CourseMainData
 
 interface CoursesRepository {
 
-
     suspend fun loadCoursesFromServer(searchString: String): List<CourseMainData>
     fun courseIsFavorite(courseId: Long): Boolean
     fun removeFavoriteCourse(course: Long)

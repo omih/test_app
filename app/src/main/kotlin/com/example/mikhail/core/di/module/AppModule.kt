@@ -3,8 +3,6 @@ package com.example.mikhail.core.di.module
 import android.arch.persistence.room.Room
 import android.content.Context
 import com.example.data.network.ClientFactory
-import com.example.data.network.api.Api
-import com.example.data.network.api.ApiFactory
 import com.example.data.storage.MainDatabase
 import com.example.mikhail.core.di.component.courses.CoursesComponent
 import com.example.mikhail.core.di.scope.AppScope
@@ -25,10 +23,9 @@ class AppModule(private val context: Context) {
 
     @Provides
     @AppScope
-    fun provideApi(clientFactory: ClientFactory): Api = ApiFactory(clientFactory).access
+    fun provideNetworkClient() = ClientFactory()
 
     @Provides
     @AppScope
-    fun provideNetworkClient() = ClientFactory()
-
+    fun provideNetworkKtorClient(clientFactory: ClientFactory) = clientFactory.create()
 }
